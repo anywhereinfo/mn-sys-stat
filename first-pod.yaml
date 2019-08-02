@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mn-sys-stat-manual
+  labels:
+    creation_method: manual
+    run: mn-sys-stat
+spec:
+  containers:
+    - image: anywhereinfo/mn-sys-stat
+      name: mn-sys-stat
+      ports:
+      - containerPort: 8080
+        protocol: TCP

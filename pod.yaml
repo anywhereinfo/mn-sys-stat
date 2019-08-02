@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu request for container
+      mn-sys-stat'
+  creationTimestamp: 2019-07-29T15:26:15Z
+  generateName: mn-sys-stat-
+  labels:
+    run: mn-sys-stat
+  name: mn-sys-stat-c2x49
+  namespace: default
+  ownerReferences:
+  - apiVersion: v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicationController
+    name: mn-sys-stat
+    uid: 34788bfe-b215-11e9-8959-42010a8000c8
+  resourceVersion: "8063741"
+  selfLink: /api/v1/namespaces/default/pods/mn-sys-stat-c2x49
+  uid: 347a38d5-b215-11e9-8959-42010a8000c8
+spec:
+  containers:
+  - image: anywhereinfo/mn-sys-stat
+    imagePullPolicy: Always
+    name: mn-sys-stat
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 100m
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-hk2d9
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  nodeName: gke-standard-cluster-1-default-pool-3790a62c-ccsq
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-hk2d9
+    secret:
+      defaultMode: 420
+      secretName: default-token-hk2d9
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: 2019-07-29T15:26:15Z
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: 2019-07-29T15:26:18Z
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: 2019-07-29T15:26:18Z
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: 2019-07-29T15:26:15Z
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: docker://33b7b909e5d7fa1bbf463f00b6f1cd06422a64c2b558014ff42de96a0b14a05b
+    image: anywhereinfo/mn-sys-stat:latest
+    imageID: docker-pullable://anywhereinfo/mn-sys-stat@sha256:e7061672a985e9551c45263fe539881bb6ee79f215aa9911b211efac4c3a5b55
+    lastState: {}
+    name: mn-sys-stat
+    ready: true
+    restartCount: 0
+    state:
+      running:
+        startedAt: 2019-07-29T15:26:18Z
+  hostIP: 10.128.0.2
+  phase: Running
+  podIP: 10.8.0.12
+  qosClass: Burstable
+  startTime: 2019-07-29T15:26:15Z

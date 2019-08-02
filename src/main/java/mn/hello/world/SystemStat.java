@@ -1,6 +1,7 @@
 package mn.hello.world;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.*;
@@ -17,9 +18,10 @@ public class SystemStat {
     @JsonProperty
     private String maxRam;
 
+    @JsonIgnore
     private long freeRam;
     @JsonProperty
-    private String displayMaxRam;
+    private String displayFreeRam;
 
     @JsonProperty
     private String hostName;
@@ -33,9 +35,9 @@ public class SystemStat {
     @JsonCreator
     public SystemStat() {
         maxCPU = Runtime.getRuntime().availableProcessors();
-        maxRam = String.valueOf(Runtime.getRuntime().maxMemory()/(1024*1024));
+        maxRam = String.valueOf(Runtime.getRuntime().maxMemory()/(1024*1024)) + "Mb";
         freeRam = Runtime.getRuntime().freeMemory()/(1024*1024);
-        displayMaxRam = freeRam + "Mb";
+        displayFreeRam = freeRam + "Mb";
 
         try {
             hostName = getLocalHost().getHostName();

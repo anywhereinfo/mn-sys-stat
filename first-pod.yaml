@@ -12,3 +12,7 @@ spec:
       ports:
       - containerPort: 8080
         protocol: TCP
+      livenessProbe:
+        httpGet:
+          path: /api/v1/liveness
+          port: 8080

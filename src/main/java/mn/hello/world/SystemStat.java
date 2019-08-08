@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.*;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -19,9 +21,23 @@ public class SystemStat {
     private String maxRam;
 
     @JsonIgnore
-    private long freeRam;
+    private double freeRAM;
+
     @JsonProperty
-    private String displayFreeRam;
+    private String freeDisplayRAM;
+
+    @JsonIgnore
+    private double freeAllocatableRam;
+
+    @JsonProperty
+    private String totalAllocatedRAM;
+
+
+    @JsonProperty
+    private String usedAllocatedRAM;
+
+    @JsonProperty
+    private String freeAllocatedRAM;
 
     @JsonProperty
     private String hostName;
@@ -34,11 +50,15 @@ public class SystemStat {
 
     @JsonCreator
     public SystemStat() {
+        NumberFormat nf = new DecimalFormat("###,##0.0");
         maxCPU = Runtime.getRuntime().availableProcessors();
-        maxRam = String.valueOf(Runtime.getRuntime().maxMemory()/(1024*1024)) + "Mb";
-        freeRam = Runtime.getRuntime().freeMemory()/(1024*1024);
-        displayFreeRam = freeRam + "Mb";
-
+        maxRam = String.valueOf( nf.format((double)Runtime.getRuntime().maxMemory()/(double)(1024*1024))) + "Mb";
+        freeAllocatableRam = (double) Runtime.getRuntime().freeMemory()/(double)(1024*1024);
+        freeAllocatedRAM = nf.format(freeAllocatableRam) + "Mb";
+        totalAllocatedRAM = nf.format((double)Runtime.getRuntime().totalMemory()/ (double)(1024*1024)) + "Mb";
+        usedAllocatedRAM = nf.format(((double)Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/ (double) (1024 * 1024)) + "Mb";
+        freeRAM = (double)(Runtime.getRuntime().maxMemory() - (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()))/ (double)(1024*1024);
+        freeDisplayRAM = nf.format(freeRAM)    + "Mb";
         try {
             hostName = getLocalHost().getHostName();
             ip = getIP();
@@ -49,8 +69,8 @@ public class SystemStat {
         routableIP = getRoutableIP();
     }
 
-    public final long getFreeRam() {
-        return freeRam;
+    public final double getFreeRam() {
+        return freeRAM;
     }
 
     private List<String> getIP() {
